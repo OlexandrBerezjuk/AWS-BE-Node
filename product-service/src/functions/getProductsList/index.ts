@@ -11,4 +11,8 @@ export default {
       },
     },
   ],
+  environment: {
+    TABLE_PRODUCTS: "${env:TABLE_PRODUCTS}",
+    TABLE_STOCKS: "${env:TABLE_STOCKS}",
+  },
 };

@@ -6,6 +6,7 @@ import importFileParser from '@functions/importFileParser';
 const serverlessConfiguration: AWS = {
   service: 'import-service',
   frameworkVersion: '3',
+  useDotenv: true,
   plugins: ['serverless-esbuild'],
   provider: {
     name: 'aws',
@@ -32,6 +33,11 @@ const serverlessConfiguration: AWS = {
         Effect: 'Allow',
         Action: ['s3:*'],
         Resource: ['arn:aws:s3:::secondary-storage-bucket/*']
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: ['arn:aws:sqs:eu-west-1:323176394586:catalogItemsQueue']
       }
     ]
   },

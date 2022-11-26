@@ -1,7 +1,7 @@
 import { formatErrorJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
-import { availableProducts } from 'src/mocks/products';
+import { retrieveProductById } from 'src/services/products/products';
 
 import schema from './schema';
 
@@ -9,7 +9,7 @@ const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
   const { id } = event.pathParameters;
 
   try {
-    const product = availableProducts.find( product => product.id === id );
+    const product = await retrieveProductById(Number(id));
 
     if (!id) {
       throw `Invalid id=${id}`;

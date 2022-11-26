@@ -42,18 +42,6 @@ export const storeProduct = async (product: Omit<Product, "id">) => {
   }
 }
 
-// export const storeProductStock = async (itemData: ItemData) => {
-//   const item = {
-//     ...itemData,
-//     id: generateProductId(),
-//   }
-
-//   await dbClient.put({
-//     TableName: process.env.TABLE_STOCKS,
-//     Item: item
-// }).promise();
-// }
-
 export const retrieveAllProducts = async () => {
   const productsResults = await dbClient.scan({
     TableName: process.env.TABLE_PRODUCTS

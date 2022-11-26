@@ -2,17 +2,23 @@ import { formatErrorJSONResponse } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import { BUCKET, s3 } from '@libs/s3';
-import { S3 } from 'aws-sdk';
+import { S3, SQS } from 'aws-sdk';
 import csv from 'csv-parser';
 
 const readFile = (params: S3.GetObjectRequest) => {
   return new Promise((res, rej) => {
+    const sqs = new SQS();
     const stream = s3.getObject(params).createReadStream();
 
     stream
       .pipe(csv())
       .on('data', async (data) => {
-        console.log(JSON.stringify(data));
+        sqs.sendMessage({
+          MessageBody: JSON.stringify(data),
+          QueueUrl: process.env.SQS_URL
+        }, (error) => {
+          console.log(error)
+        })
       })
       .on('error', (error) => {
         rej('PARSE ERROR ' + error.message);

@@ -13,4 +13,7 @@ export default {
       },
     },
   ],
+  environment: {
+    SQS_URL: "${env:SQS_URL}",
+  },
 };

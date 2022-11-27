@@ -7,7 +7,9 @@ export default {
       http: {
         method: 'get',
         path: 'import',
-        cors: true,
+        cors: {
+          origin: "*",
+        },
         request: {
           parameters: {
             querystrings: {

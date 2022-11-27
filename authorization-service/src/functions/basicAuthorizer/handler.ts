@@ -1,12 +1,11 @@
-import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
+import { APIGatewayAuthorizerHandler } from 'aws-lambda';
+import { lambdaWrapper } from '@libs/lambda';
+
 import { generatePolicy } from '../../libs/generatePolicy';
 
-const basicAuthorizer = async (event) => {
-  console.log(JSON.stringify(event));
-  
+const basicAuthorizer: APIGatewayAuthorizerHandler = async (event) => {
   if (event['type'] !== 'TOKEN') {
-    return formatJSONResponse({ message: 'Unauthorized' }, 401)
+    throw new Error('Unauthorized');
   }
 
   try {
@@ -25,8 +24,8 @@ const basicAuthorizer = async (event) => {
 
     return policy;
   } catch (err) {
-    return formatJSONResponse({ message: 'Unauthorized' }, 401);
+    throw new Error('Unauthorized');
   }
 };
 
-export const main = middyfy(basicAuthorizer);
+export const main = lambdaWrapper(basicAuthorizer);

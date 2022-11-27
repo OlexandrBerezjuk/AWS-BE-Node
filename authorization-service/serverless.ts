@@ -5,7 +5,10 @@ import basicAuthorizer from '@functions/basicAuthorizer';
 const serverlessConfiguration: AWS = {
   service: 'authorization-service',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-dotenv-plugin'],
+  plugins: [
+    'serverless-esbuild',
+    'serverless-dotenv-plugin',
+  ],
   provider: {
     name: 'aws',
     region: 'eu-west-1',
@@ -33,6 +36,7 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
+    stages: ['dev', 'prod'],
   },
 };
 

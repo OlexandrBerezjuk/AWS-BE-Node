@@ -7,7 +7,9 @@ export default {
       http: {
         method: 'get',
         path: 'import',
-        cors: true,
+        cors: {
+          origin: "*",
+        },
         request: {
           parameters: {
             querystrings: {
@@ -15,6 +17,13 @@ export default {
             }
           }
         },
+        authorizer: {
+          name: 'basicAuthorizer',
+          arn: '${env:AUTH_LAMBDA_ARN}',
+          resultTtlInSeconds: 0,
+          identitySource: 'method.request.header.Authorization',
+          type: 'token'
+        }
       },
     },
   ],
